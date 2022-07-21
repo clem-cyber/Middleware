@@ -2,9 +2,9 @@ package cz.cvut.fel.omo.cv10;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.partitioningBy;
+import static java.util.stream.Collectors.*;
 
 public class TradeHistory {
 
@@ -55,25 +55,29 @@ public class TradeHistory {
     }
 
     public Optional<Transaction> findSmallestTransactionUsingReduce(){
-        Optional<Transaction> smallestTransaction = null;
-        //Implement body here
+        Optional<Transaction> smallestTransaction = transactions.stream().min(Comparator.comparing(Transaction::getValue));
         return smallestTransaction;
     }
 
     public Map<String, List<Trader>> getTradersByTown(){
-        Map<String, List<Trader>> tradersByTown = new HashMap<String, List<Trader>>();
-        //Implement body here
+        Map<String, List<Trader>> tradersByTown = transactions.stream()
+                .flatMap(t -> Stream.of(t.getTrader()))
+                .distinct()
+                .collect(Collectors.groupingBy(Trader::getCity));
         return tradersByTown;
     }
 
     public Map<String, Long> getTradersCountsByTown(){
-        Map<String, Long> tradersByTown = new HashMap<String, Long>();
-        //Implement body here
+        Map<String, Long> tradersByTown = transactions.stream()
+                .flatMap(t -> Stream.of(t.getTrader()))
+                .distinct()
+                .collect(Collectors.groupingBy(Trader::getCity, counting()));
         return tradersByTown;
     }
 
     public Map<Boolean, List<Transaction>> partitionTransactionsByTraderIsVegetarian(){
-        Map<Boolean, List<Transaction>> transactionsBy = new HashMap<Boolean, List<Transaction>>();
+        Map<Boolean, List<Transaction>> transactionsBy = transactions.stream()
+                .collect(groupingBy(t->t.getTrader().isVegetarian()));
         return transactionsBy;
     }
 }
