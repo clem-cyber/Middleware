@@ -1,0 +1,8 @@
+A)
+context Department
+invariant : self.departmentBudget >= 0
+
+B)
+context increaseTheSalary(float : amount) : float
+pre : amount > 0
+post : self.income = self.income@pre + amount and result = seelf.income
