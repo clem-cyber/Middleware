@@ -1,0 +1,11 @@
+Q : What happens if another broker goes down ?
+We know that the zookeeper server must have three brockers UP or more than three to run.
+So if another broker goes down an error will surely occur.
+
+Q : What if you have 5 brokers and 2 go down ?
+As it is said at the previous question, the server has to have at least 3 brokers to run properly, here we will have 5 - 2 = 3 brokers up because only 2 went down.
+So we will not have nay problems.
+
+Q : What if you changed the replication factor for your topic ?
+We know that the replication factor is a number you can changed to configure the minimum number of up servers taht you have to have.
+So, if we change it the 2 previous questions could give us a different result for the same context.
